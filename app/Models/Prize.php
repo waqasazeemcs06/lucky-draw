@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Prize extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [
+        'draw_id',
+        'title',
+        'description',
+        'quantity',
+        'order',
+        'id',
+    ];
+
+    public function draw(): BelongsTo
+    {
+        return $this->belongsTo(Draw::class);
+    }
+}
