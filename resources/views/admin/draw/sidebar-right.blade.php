@@ -1,4 +1,4 @@
-<div class="lg:col-span-4 order-3">
+<div class="lg:col-span-5 order-1 lg:order-2 flex flex-col">
     <div class="sticky top-20 space-y-4">
         <div class="glass-card p-5 border-2" style="border-color: {{ $currentPrize ? $prizeColors[$currentPrize->id] : '#bc13fe' }}40;">
             <div class="text-center">

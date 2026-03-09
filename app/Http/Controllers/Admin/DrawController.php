@@ -10,8 +10,14 @@ class DrawController extends Controller
     {
         return view('admin.draw.index');
     }
+
     public function luckDraw()
     {
         return view('admin.draw.lucky-draw');
+    }
+
+    public function winners()
+    {
+        return view('admin.winners.index');
     }
 }

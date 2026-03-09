@@ -39,6 +39,22 @@ window.luckyDraw = () => ({
         this.$wire.on('winner-revealed', (event) => {
             this.finalizeWinner(event[0].winner);
         });
+
+        // Prize changed - RESET the display
+        this.$wire.on('prize-changed', () => {
+            this.resetDisplay();
+        });
+    },
+
+    resetDisplay() {
+        this.isRolling = false;
+        this.currentDisplay = 'READY';
+        this.currentName = '';
+        this.rollBatch = [];
+        this.targetWinnerInvoice = null;
+        if (this.rollInterval) {
+            clearTimeout(this.rollInterval);
+        }
     },
 
     initKeyboardShortcuts() {
@@ -107,7 +123,7 @@ window.luckyDraw = () => ({
             }
 
             this.currentDisplay = this.rollBatch[this.currentIndex].invoice;
-            this.currentName = this.rollBatch[this.currentIndex].name;
+            this.currentName = this.rollBatch[this.currentIndex].winner_name;
             step++;
 
             if (step < maxSteps) {
@@ -122,11 +138,17 @@ window.luckyDraw = () => ({
     },
 
     finalizeWinner(winner) {
-        // Ensure display shows the actual winner
         this.currentDisplay = winner.invoice_number;
         this.currentName = winner.name;
         this.isRolling = false;
         this.targetWinnerInvoice = null;
+
+        // Add zoom effect class to rolling display
+        const rollingDisplay = document.querySelector('.rolling-display');
+        if (rollingDisplay) {
+            rollingDisplay.classList.add('winner-announced');
+            setTimeout(() => rollingDisplay.classList.remove('winner-announced'), 3000);
+        }
 
         this.playWinSound();
         this.triggerConfetti();

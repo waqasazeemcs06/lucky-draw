@@ -7,8 +7,8 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4" style="--current-color: {{ $currentPrize ? $prizeColors[$currentPrize->id] : '#00f3ff' }}">
             @include('admin.draw.sidebar-left')
-            @include('admin.draw.winner-slots')
             @include('admin.draw.sidebar-right')
+            @include('admin.draw.winner-slots')
         </div>
     </main>
 </div>

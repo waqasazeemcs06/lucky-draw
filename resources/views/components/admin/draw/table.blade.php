@@ -31,6 +31,7 @@ new class extends Component {
             <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winners</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Prize Count</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Participants Count</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lucky Draw Date</th>
@@ -44,6 +45,9 @@ new class extends Component {
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $draw->id }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
                         <a href="{{ route('admin.draw.luck-draw', ['draw_id' => $draw->id]) }}">{{ $draw->title }}</a>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
+                        <a href="{{ route('admin.draw.winners', ['draw_id' => $draw->id]) }}">See List</a>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-green-600 text-right"><a href="{{ route('admin.prizes.index', ['draw_id' => $draw->id]) }}">{{ number_format($draw->prizes_sum_quantity) }}</a></td>
                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-green-600 text-right"><a href="{{ route('admin.participants.index', ['draw_id' => $draw->id]) }}">{{ number_format($draw->participants_count) }}</a></td>

@@ -23,7 +23,7 @@ new class extends Component
     public $drawCompleted = false;
     public $isRolling = false;
 
-    // Winner selected at start of roll (hidden until end)
+    // Winner selected at the start of roll (hidden until the end)
     public $preSelectedWinner = null;
 
     public function mount($draw_id)
@@ -58,7 +58,7 @@ new class extends Component
                 'prize_id' => $w->prize_id,
                 'prize_title' => $w->prize->title,
                 'prize_color' => $this->prizeColors[$w->prize_id] ?? '#00f3ff',
-                'winner_name' => $w->participant->name ?? 'Anonymous',
+                'winner_name' => $w->participant->store_name,
                 'invoice' => $w->participant->invoice_number,
                 'won_at' => $w->created_at->format('H:i:s'),
                 'is_recent' => $w->created_at->diffInMinutes(now()) < 5
@@ -110,7 +110,7 @@ new class extends Component
                 ->map(fn($w) => [
                     'id' => $w->participant->id,
                     'invoice_number' => $w->participant->invoice_number,
-                    'name' => $w->participant->name,
+                    'winner_name' => $w->participant->store_name,
                     'won_at' => $w->created_at->format('H:i:s'),
                     'prize_id' => $w->prize_id
                 ])
@@ -129,19 +129,19 @@ new class extends Component
             return;
         }
 
-        // Get random participant for rolling batch
+        // Get a random participant for rolling batch
         $batchParticipants = Participant::where('draw_id', $this->draw_id)
             ->where('is_winner', false)
             ->inRandomOrder()
             ->limit(100)
-            ->get(['id', 'invoice_number', 'name']);
+            ->get(['id', 'invoice_number', 'name', 'store_name', 'store_address']);
 
         if ($batchParticipants->isEmpty()) {
             return;
         }
 
         // PRE-SELECT THE ACTUAL WINNER (random from batch or fresh random)
-        // Remove winner from database immediately so they can't be selected again
+        // Remove winner from a database immediately so they can't be selected again
         $winnerParticipant = Participant::where('draw_id', $this->draw_id)
             ->where('is_winner', false)
             ->inRandomOrder()
@@ -159,28 +159,28 @@ new class extends Component
         $this->preSelectedWinner = [
             'id' => $winnerParticipant->id,
             'invoice_number' => $winnerParticipant->invoice_number,
-            'name' => $winnerParticipant->name,
+            'winner_name' => $winnerParticipant->store_name,
         ];
 
-        // Create batch including the winner (so it appears in rolling)
+        // Create a batch including the winner (so it appears in rolling)
         $rollBatch = $batchParticipants->map(fn($p) => [
             'invoice' => $p->invoice_number,
-            'name' => $p->name
+            'winner_name' => $p->store_name
         ])->toArray();
 
-        // Ensure winner is in the batch (replace random item or add)
+        // Ensure the winner is in the batch (replace random item or add)
         $winnerInBatch = collect($rollBatch)->firstWhere('invoice', $this->preSelectedWinner['invoice_number']);
         if (!$winnerInBatch) {
-            // Replace last item with winner
+            // Replace the last item with the winner
             $rollBatch[array_key_last($rollBatch)] = [
                 'invoice' => $this->preSelectedWinner['invoice_number'],
-                'name' => $this->preSelectedWinner['name']
+                'winner_name' => $this->preSelectedWinner['winner_name']
             ];
         }
 
         $this->isRolling = true;
 
-        // Send batch to frontend (winner is hidden in there)
+        // Send batch to the frontend (winner is hidden in there)
         $this->dispatch('roll-started', [
             'batch' => $rollBatch,
             'winner_invoice' => $this->preSelectedWinner['invoice_number'] // Tell frontend which one to land on
@@ -194,7 +194,7 @@ new class extends Component
             return;
         }
 
-        // Create winner record
+        // Create a winner record
         $winner = new Winner();
         $winner->draw_id = $this->draw_id;
         $winner->prize_id = $this->currentPrize->id;
@@ -204,7 +204,7 @@ new class extends Component
         $newWinner = [
             'id' => $this->preSelectedWinner['id'],
             'invoice_number' => $this->preSelectedWinner['invoice_number'],
-            'name' => $this->preSelectedWinner['name'],
+            'winner_name' => $this->preSelectedWinner['winner_name'],
             'won_at' => now()->format('H:i:s'),
             'prize_id' => $this->currentPrize->id
         ];
@@ -217,7 +217,7 @@ new class extends Component
             'prize_id' => $this->currentPrize->id,
             'prize_title' => $this->currentPrize->title,
             'prize_color' => $this->prizeColors[$this->currentPrize->id],
-            'winner_name' => $this->preSelectedWinner['name'] ?? 'Anonymous',
+            'winner_name' => $this->preSelectedWinner['winner_name'],
             'invoice' => $this->preSelectedWinner['invoice_number'],
             'won_at' => now()->format('H:i:s'),
             'is_recent' => true

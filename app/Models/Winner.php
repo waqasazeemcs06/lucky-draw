@@ -21,11 +21,6 @@ class Winner extends Model
         return $this->belongsTo(Draw::class);
     }
 
-    public function prizeGroup(): BelongsTo
-    {
-        return $this->belongsTo(Prize::class);
-    }
-
     public function participant(): BelongsTo
     {
         return $this->belongsTo(Participant::class);

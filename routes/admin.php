@@ -22,6 +22,7 @@ Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.d
 
 Route::resource('draws', DrawController::class);
 Route::get('luck-draw', [DrawController::class, 'luckDraw'])->name('draw.luck-draw');
+Route::get('winners', [DrawController::class, 'winners'])->name('draw.winners');
 Route::resource('prizes', PrizeController::class);
 Route::resource('participants', ParticipantController::class);
 

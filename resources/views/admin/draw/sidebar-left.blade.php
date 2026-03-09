@@ -25,13 +25,10 @@
             @foreach($allWinnersHistory as $winner)
                 <div class="flex items-center gap-2 p-2 rounded text-xs border"
                      style="border-color: {{ $winner['prize_color'] }}30; background: {{ $winner['prize_color'] }}10;">
-                    <div class="w-6 h-6 rounded flex items-center justify-center font-bold shrink-0"
-                         style="background: {{ $winner['prize_color'] }}30; color: {{ $winner['prize_color'] }};">
-                        {{ substr($winner['prize_title'], 0, 1) }}
-                    </div>
                     <div class="flex-1 min-w-0">
-                        <div class="font-mono text-sm font-bold truncate" style="color: {{ $winner['prize_color'] }}">{{ $winner['invoice'] }}</div>
-                        <div class="text-gray-500 text-[10px]">{{ $winner['winner_name'] }}</div>
+                        <div class="font-mono text-lg font-bold truncate" style="color: {{ $winner['prize_color'] }}">{{ $winner['invoice'] }}</div>
+                        <div class="text-gray-500 text-[12px]">{{ $winner['winner_name'] }}</div>
+                        <div class="font-mono text-sm font-bold truncate" style="color: {{ $winner['prize_color'] }}">Won {{ $winner['prize_title'] }}</div>
                     </div>
                 </div>
             @endforeach

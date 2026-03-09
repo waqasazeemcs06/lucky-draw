@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-[#FFE600] border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -23,6 +23,9 @@
                     </x-nav-link>
                     <x-nav-link :href="route('admin.participants.index')" :active="request()->routeIs('admin.participants.index')">
                         {{ __('Participants') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.draw.winners')" :active="request()->routeIs('admin.draw.winners')">
+                        {{ __('Winners') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -87,6 +90,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.participants.index')" :active="request()->routeIs('admin.participants.index')">
                 {{ __('Participants') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.draw.winners')" :active="request()->routeIs('admin.draw.winners')">
+                {{ __('Winners') }}
             </x-responsive-nav-link>
         </div>
 

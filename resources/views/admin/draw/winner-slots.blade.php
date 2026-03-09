@@ -1,4 +1,4 @@
-<div class="lg:col-span-5 order-1 lg:order-2 flex flex-col">
+<div class="lg:col-span-4 order-3">
     @if($currentPrize)
         <div class="flex items-center justify-between mb-3">
             <h3 class="font-display text-lg font-bold flex items-center gap-2">
@@ -39,10 +39,12 @@
                         <div class="winner-invoice" style="color: {{ $boxColor }}">
                             {{ $winner['invoice_number'] }}
                         </div>
-                        @if($winner['name'])
-                            <div class="winner-name">{{ $winner['name'] }}</div>
+                        @if($winner['winner_name'])
+                            <div class="winner-name">{{ $winner['winner_name'] }}</div>
+                            <div class="winner-invoice" style="color: {{ $boxColor }}; font-size: 0.9rem;">
+                                Won {{ $this->currentPrize->title }}
+                            </div>
                         @endif
-                        <div class="winner-time">Won at {{ $winner['won_at'] }}</div>
                     </div>
 
                     <div class="winner-status"></div>

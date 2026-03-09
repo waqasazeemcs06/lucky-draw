@@ -8,6 +8,7 @@ new class extends Component {
     use ModalTrait;
 
     public bool $showingImportModal = false;
+    public $draw_id = null;
 
     #[On('openImportModal')]
     public function openImportModal()
@@ -42,7 +43,7 @@ new class extends Component {
                     </button>
                 </div>
 
-                @livewire('admin.participant.table')
+                @livewire('admin.participant.table', ['draw_id' => $draw_id])
 
                 @if($showingModal ?? false)
                     @livewire('admin.participant.manage')

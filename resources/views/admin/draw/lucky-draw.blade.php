@@ -6,7 +6,7 @@
     @vite(['resources/css/lucky-draw.css', 'resources/js/lucky-draw.js'])
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-white-800 leading-tight">
             {{ __('Lucky Draws') }}
         </h2>
     </x-slot>

@@ -1,5 +1,5 @@
 @php use App\Models\Draw; @endphp
-<x-app-layout>
+<x-guest-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white-800 leading-tight">
             {{ __('Dashboard') }}
@@ -10,6 +10,6 @@
         $draw = Draw::completed()->latest('id')->first();
     @endphp
 
-    @livewire('admin.winner.index', ['draw_id' => $draw?->id])
+    @livewire('admin.winner.table', ['draw_id' => $draw?->id])
 
-</x-app-layout>
+</x-guest-layout>
