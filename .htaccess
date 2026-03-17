@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect /public to root (prevents duplicate content if someone types /public)
+    RewriteCond %{THE_REQUEST} /public [NC]
+    RewriteRule ^(.*?)\/?public/?$ /$1 [L,R=301,NC,NE]
+
+    # Rewrite everything to /public silently (main magic line)
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+    # Optional: Handle trailing slashes and front controller (Laravel's default rules can stay in public/.htaccess)
+</IfModule>
