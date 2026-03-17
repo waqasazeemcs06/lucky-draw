@@ -53,7 +53,7 @@ new class extends Component {
             <tbody class="bg-white divide-y divide-gray-200">
             @forelse($prizes as $prize)
                 <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $prize->id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ ($prizes->currentPage() - 1) * $prizes->perPage() + $loop->iteration }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-blue-100">{{ $prize?->draw?->title }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $prize->title }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $prize->description }}</td>

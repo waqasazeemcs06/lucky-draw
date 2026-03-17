@@ -25,10 +25,14 @@ new class extends Component {
 
     public function render()
     {
-        $query = Winner::with(['draw', 'prize', 'participant'])
-            ->when($this->draw_id, function (Builder $query) {
-                $query->where('draw_id', $this->draw_id);
-            })
+        $query = Winner::with([
+            'draw'  => fn($q) => $q->whereNull('deleted_at'),
+            'prize' => fn($q) => $q->whereNull('deleted_at'),
+            'participant',
+        ])
+            ->when($this->draw_id, fn($q) => $q->where('draw_id', $this->draw_id))
+            ->whereHas('draw',  fn($q) => $q->whereNull('deleted_at'))
+            ->whereHas('prize', fn($q) => $q->whereNull('deleted_at'))
             ->orderByDesc('id');
 
         // Add search filter
@@ -100,7 +104,7 @@ new class extends Component {
                 <tbody class="divide-y divide-gray-200">
                 @forelse($winners as $winner)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $winner->id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ ($winners->currentPage() - 1) * $winners->perPage() + $loop->iteration }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-blue-100">{{ $winner?->draw?->title }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $winner->participant->store_name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $winner->participant->invoice_number }}</td>

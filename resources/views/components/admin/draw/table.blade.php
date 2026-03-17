@@ -42,7 +42,7 @@ new class extends Component {
             <tbody class="bg-white divide-y divide-gray-200">
             @forelse($draws as $draw)
                 <tr class="hover:bg-gray-50" wire:key="draw-{{ $draw->id }}">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $draw->id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ ($draws->currentPage() - 1) * $draws->perPage() + $loop->iteration }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
                         <a href="{{ route('admin.draw.luck-draw', ['draw_id' => $draw->id]) }}">{{ $draw->title }}</a>
                     </td>
