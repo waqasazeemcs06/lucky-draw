@@ -51,7 +51,6 @@ new class extends Component
         $this->allWinnersHistory = Winner::where('draw_id', $this->draw_id)
             ->with(['prize', 'participant'])
             ->orderBy('created_at', 'desc')
-            ->limit(100)
             ->get()
             ->map(fn($w) => [
                 'id' => $w->id,
