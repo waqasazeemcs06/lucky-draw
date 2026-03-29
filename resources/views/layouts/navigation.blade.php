@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('admin.draw.winners')" :active="request()->routeIs('admin.draw.winners')">
                         {{ __('Winners') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.settings.edit')" :active="request()->routeIs('admin.settings.edit')">
+                        {{ __('Settings') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -93,6 +96,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.draw.winners')" :active="request()->routeIs('admin.draw.winners')">
                 {{ __('Winners') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.settings.edit')" :active="request()->routeIs('admin.settings.edit')">
+                {{ __('Settings') }}
             </x-responsive-nav-link>
         </div>
 

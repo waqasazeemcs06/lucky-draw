@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DrawController;
 use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\PrizeController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +26,7 @@ Route::get('luck-draw', [DrawController::class, 'luckDraw'])->name('draw.luck-dr
 Route::get('winners', [DrawController::class, 'winners'])->name('draw.winners');
 Route::resource('prizes', PrizeController::class);
 Route::resource('participants', ParticipantController::class);
-
+Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit');
+Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
 
 

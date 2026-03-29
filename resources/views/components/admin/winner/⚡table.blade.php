@@ -3,6 +3,7 @@
 use App\Helpers\AlertHelper;
 use App\Models\Participant;
 use App\Models\Prize;
+use App\Models\Setting;
 use App\Models\Winner;
 use App\Traits\DeleteTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -101,12 +102,36 @@ new class extends Component {
         $winners = $this->winnersQuery()->paginate($this->perPage);
 
         return view('components.admin.winner.⚡table', [
+            'facebookLiveUrl' => Setting::getValue('facebook_live_url'),
             'winners' => $winners,
         ]);
     }
 };
 ?>
 <div>
+    @if(!empty($facebookLiveUrl))
+        <div class="mb-6 rounded-xl border border-blue-100 bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b border-blue-100 bg-blue-50 px-4 py-3">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-blue-700">Facebook Live</h3>
+                <a href="{{ $facebookLiveUrl }}" target="_blank" rel="noopener noreferrer" class="text-xs font-medium text-blue-600 hover:text-blue-800">
+                    Open on Facebook
+                </a>
+            </div>
+            <div class="p-4">
+                <div class="relative w-full overflow-hidden rounded-lg bg-black" style="padding-top:56.25%;">
+                    <iframe
+                        class="absolute left-0 top-0 h-full w-full"
+                        src="https://www.facebook.com/plugins/video.php?href={{ urlencode($facebookLiveUrl) }}&show_text=false&width=1280"
+                        style="border:none;overflow:hidden"
+                        scrolling="no"
+                        frameborder="0"
+                        allowfullscreen="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <!-- Search Input -->
     <div class="p-4 border-b border-gray-200">
@@ -177,7 +202,7 @@ new class extends Component {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
             </div>
-            <h3 class="mt-4 text-lg font-semibold text-gray-900">Lucky Draw hasn’t started yet</h3>
+            <h3 class="mt-4 text-lg font-semibold text-gray-900">Lucky Draw hasnâ€™t started yet</h3>
             <p class="mt-2 text-sm text-gray-600">Winners will appear here once the draw begins. Please check back later for the winners list.</p>
         </div>
     @endif
